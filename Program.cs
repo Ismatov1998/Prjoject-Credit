@@ -47,7 +47,8 @@ namespace ERT
               выводите 1 чтобы подать заявку 
               выводите 2 если хотите посмотреть свои заявки
               выводите 3 если хотите оплатить кредита
-              выводите 4 если хотите видит свои графики ");
+              выводите 4 если хотите видит свои графики 
+              выводите 5 если хотите погащать свой кредит");
               con.Close();
               
               string s3=Console.ReadLine();
@@ -91,8 +92,33 @@ namespace ERT
             var result = commandText5.ExecuteNonQuery();
             goto T45;
            }
+            
+           if(s3=="5")
+           {
+            string selectSrok=$"Select * from KREDIT12 where [серыйный номер]='{s}'";
+            SqlCommand commandText3=new SqlCommand(selectSrok,con);
+            con.Open();
+            SqlDataReader reader3=commandText3.ExecuteReader();
+            reader3.Read();
+            int a=Convert.ToInt32(reader3.GetValue("остаток кредита"));
+            int b=Convert.ToInt32(reader3.GetValue("каждый месяц сколько должни"));
+            int c=a-b;
+            if(a-b<=0)
+            {
+              Console.WriteLine("У вас больше нету остатков кредита");
+            }
+            con.Close();
+            string updateSrok=$"update KREDIT12 set [остаток кредита]={c} WHERE [серыйный номер]='{s}'";
+            SqlCommand commandText5=new SqlCommand(updateSrok,con);
+            con.Open();
+            var result = commandText5.ExecuteNonQuery();
+            con.Close();
+            goto T89;
+            }
+           
 
             }
+            
              
             }
             if(t==0)
@@ -104,7 +130,11 @@ namespace ERT
            }
 
            }
+           T89:
+           Console.WriteLine(455464654646);
            T45:
+           
+           
            if(n=="2")///////// Здесь заполняем поля для регистрации
            {
             string[] s2=new string[]{"Firstname:","Lastname:","Middlename:","BirthDate:","Date of issue:","Date of expire:","Document №:","Addres:","Marital status","Pol","login","Parol"};
@@ -364,7 +394,7 @@ namespace ERT
            t=0;
            //Calculate(s8[0]);
            p1.addanceta();
-           
+
            if(Calculate()>11)
            {
            Console.WriteLine("Чтобы подать заявку нужно войти вличный кабинет для этого надо нажать любую клавищу");
@@ -373,6 +403,7 @@ namespace ERT
            goto T22;
            }
            else{
+             Console.WriteLine(Calculate());
              Console.WriteLine("Извенити что мы не сможем вам заполнить заявку на кредите т.к ваш бали нехватает");
            }
          }
