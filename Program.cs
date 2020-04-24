@@ -17,6 +17,8 @@ namespace ERT
 Если вы уже регистрированый в приложении введите 1:
 иначе чтобы регистрироваться введите 2:
 Если хотите войти в качестве Admina то выводите 3:
+
+
 ");
 
           string n=Console.ReadLine();
@@ -44,7 +46,10 @@ namespace ERT
               Console.WriteLine(@"
               выводите 1 чтобы подать заявку 
               выводите 2 если хотите посмотреть свои заявки
-              выводите 3 если хотите оплатить кредита");
+              выводите 3 если хотите оплатить кредита
+              выводите 4 если хотите видит свои графики ");
+              con.Close();
+              
               string s3=Console.ReadLine();
               
             
@@ -56,6 +61,36 @@ namespace ERT
             {
               ProsmotrZayavka(s);
             }
+            if(s3=="4")
+            {
+            string selectSrok=$"Select * from Zayavka where [серийный номер]='{s}'";
+            SqlCommand commandText3=new SqlCommand(selectSrok,con);
+            con.Open();
+            SqlDataReader reader3=commandText3.ExecuteReader();
+            reader3.Read();
+            int a=Convert.ToInt32(reader3.GetValue("срок кредита"));
+            
+            con.Close();
+            reader3.Close();
+            string selectSum=$"Select * from Zayavka where [серийный номер]='{s}'";
+            SqlCommand commandText4=new SqlCommand(selectSum,con);
+
+            con.Open();
+            SqlDataReader reader4=commandText4.ExecuteReader();
+            reader4.Read();
+
+            int b=Convert.ToInt32(reader4.GetValue("сумма кредита"));
+            reader4.Close();
+            con.Close();
+            int c=b/a;
+            Console.WriteLine($"В течении {a} месяцов вы должни каждый месяц погашать по {c} сомони");
+            
+            string addkredit=$"insert into KREDIT12([каждый месяц сколько должни],[остаток кредита],[серыйный номер]) Values('{c}','{b}','{s}')";
+            SqlCommand commandText5=new SqlCommand(addkredit,con);
+            con.Open();
+            var result = commandText5.ExecuteNonQuery();
+            goto T45;
+           }
 
             }
              
@@ -67,7 +102,9 @@ namespace ERT
             con.Close();
             
            }
+
            }
+           T45:
            if(n=="2")///////// Здесь заполняем поля для регистрации
            {
             string[] s2=new string[]{"Firstname:","Lastname:","Middlename:","BirthDate:","Date of issue:","Date of expire:","Document №:","Addres:","Marital status","Pol","login","Parol"};
@@ -327,6 +364,7 @@ namespace ERT
            t=0;
            //Calculate(s8[0]);
            p1.addanceta();
+           
            if(Calculate()>11)
            {
            Console.WriteLine("Чтобы подать заявку нужно войти вличный кабинет для этого надо нажать любую клавищу");
@@ -438,6 +476,10 @@ namespace ERT
              
            }
            
+         
+
+          
+           
            
          
         
@@ -517,6 +559,8 @@ namespace ERT
         Console.WriteLine("Вы успешно регистрировались");
         
         }
+
+
         }
 
 
@@ -801,9 +845,6 @@ System.Console.WriteLine($@"ID: {reader.GetValue("id")},
             k=k+1;
           }
           
-
-
-
         }
         reader.Close();
         con.Close();
