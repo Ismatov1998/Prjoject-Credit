@@ -592,7 +592,29 @@ namespace ERT
       }
 
 
-      
+      static void ProsmotrZayavka(string s)
+      {
+
+      const string constring=@"Data source=localhost; initial catalog=Client; Integrated Security=True";
+        SqlConnection con = new SqlConnection(constring);
+        con.Open();
+        string selectSql = $"Select * from Zayavka where [серийный номер]={s}";
+        SqlCommand commandText = new SqlCommand(selectSql, con);
+        SqlDataReader reader = commandText.ExecuteReader();
+        while (reader.Read())
+        {
+System.Console.WriteLine($@"ID: {reader.GetValue("id")},
+            Firstname: {reader.GetValue("серийный номер")},
+            LastName: {reader.GetValue("сумма кредита")},
+            MiddleName: {reader.GetValue("срок кредита")},
+            BirthDate: {reader.GetValue("цель кредита")}, 
+            ");
+        }
+        reader.Close();
+        con.Close();
+        
+        }
+        
      
  
        
