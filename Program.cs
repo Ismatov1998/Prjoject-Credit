@@ -369,11 +369,13 @@ namespace ERT
                 Console.WriteLine("Если хотите посмотреть заявок всех клиентов выводите 1");
                 Console.WriteLine("Если хотите добавить Админа введите 2");
                 n=Console.ReadLine();
-                reader.Close();
+                //reader.Close();
                 con.Close();
                 if(n=="1")
                 {
                   ProsmotrZayavkaAdmin();
+                  reader.Close();
+                  con.Close();
                 }
                 if(n=="2")/////////////////////
                 {
@@ -385,7 +387,7 @@ namespace ERT
                  string s2=Console.ReadLine();
                  Console.WriteLine("Вводите Middlename");
                  string s3=Console.ReadLine();
-                 T9: Console.WriteLine("Вводите Login");
+             T9: Console.WriteLine("Вводите Login");
                  string s4=Console.ReadLine();
                  con.Open();
                  string SelectAdmin1=$"select Login from Admin1";
@@ -406,15 +408,20 @@ namespace ERT
                 
                 Console.WriteLine("Вводите Parol");
                 string s51=Console.ReadLine();
-                
+                reader.Close();
                 Admin1 p=new Admin1(s1,s2,s3,s4,s51);
                 p.addAdmin();
-                goto T12;
+                reader.Close();
+                goto T26;
                 }
-
+                 
               }
+             
+            goto T56;
             }
-            T12:
+            T26:
+            T56:
+            
 
             
              if(t==1)
@@ -424,7 +431,7 @@ namespace ERT
              else 
              {
               Console.WriteLine("Не правильный Parol или Login");
-              reader.Close();
+              //reader.Close();
               con.Close();
               goto T1;
              }
