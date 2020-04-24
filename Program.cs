@@ -48,7 +48,8 @@ namespace ERT
               выводите 2 если хотите посмотреть свои заявки
               выводите 3 если хотите оплатить кредита
               выводите 4 если хотите видит свои графики 
-              выводите 5 если хотите погащать свой кредит");
+              выводите 5 если хотите погащать свой кредит
+              выводите 6 если хотите посмотреть остаток кредита выводите 6");
               con.Close();
               
               string s3=Console.ReadLine();
@@ -115,7 +116,11 @@ namespace ERT
             con.Close();
             goto T89;
             }
-           
+            if(s3=="6")
+            {
+             showspisok(s);
+             goto T19;
+            }
 
             }
             
@@ -133,6 +138,7 @@ namespace ERT
            T89:
            Console.WriteLine(455464654646);
            T45:
+           T19:
            
            
            if(n=="2")///////// Здесь заполняем поля для регистрации
@@ -881,6 +887,21 @@ System.Console.WriteLine($@"ID: {reader.GetValue("id")},
         con.Close();
         return k;
        }
-       
+       static void showspisok(string s)
+       {
+        const string constring=@"Data source=localhost; initial catalog=Client; Integrated Security=True";
+        SqlConnection con = new SqlConnection(constring);
+        con.Open();
+        string selectSql = $"Select * from KREDIT12 where [серыйный номер]='{s}'";
+        SqlCommand commandText = new SqlCommand(selectSql, con);
+        SqlDataReader reader = commandText.ExecuteReader();
+        reader.Read();
+        Console.WriteLine($" сколько должни каждый месяц: {reader.GetValue("каждый месяц сколько должни")}, осаток кредита: {reader.GetValue("остаток кредита")},серыйный номер:{reader.GetValue("серыйный номер")},");
+        
+        reader.Close();
+        con.Close();
+        }
     }
+       
 }
+
